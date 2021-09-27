@@ -11,7 +11,7 @@ public class TestesSelenium {
 
 
 
-//    busca por vaga
+    //    busca por vaga
     @Test
     public void test() {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
@@ -20,12 +20,12 @@ public class TestesSelenium {
         browser.findElement(By.name("q")).sendKeys("programador");
         browser.findElement(By.name("submit")).submit();
 
-        Assert.assertEquals("https://www.catho.com.br/vagas/?pais_id=31&q=programador", browser.getCurrentUrl());
+        Assert.assertFalse(browser.getCurrentUrl().equals("https://www.catho.com.br"));
 
         browser.close();
     }
 
-//    atualizar perfil com cep invalido
+    //    atualizar perfil com cep invalido
     @Test
     public void test2() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
@@ -52,7 +52,7 @@ public class TestesSelenium {
         browser.close();
     }
 
-//    Testa se o campo CEP fica vazio apos recarregar pagina
+    //    Testa se o campo CEP fica vazio apos recarregar pagina
     @Test
     public void test3() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
@@ -79,7 +79,7 @@ public class TestesSelenium {
         browser.close();
     }
 
-//    Atualizar perfil com numero da casa invalido
+    //    Atualizar perfil com numero da casa invalido
     @Test
     public void test4() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
@@ -106,7 +106,7 @@ public class TestesSelenium {
         browser.close();
     }
 
-//    Atualizar perfil com logradouro invalido
+    //    Atualizar perfil com logradouro invalido
     @Test
     public void test5() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
@@ -211,6 +211,7 @@ public class TestesSelenium {
         browser.close();
     }
 
+//    testando redirecionamento do botão voltar para area do candidato
     @Test
     public void test9() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
@@ -224,14 +225,39 @@ public class TestesSelenium {
 
         TimeUnit.SECONDS.sleep(7);
 
+        browser.navigate().to("https://www.catho.com.br/curriculo/?sugestaoVagas=1&editInativo=1&_ga=2.111187460.1071191939.1632741763-1569945203.1632741762");
+        TimeUnit.SECONDS.sleep(3);
+        browser.navigate().to("https://www.catho.com.br/curriculo/dados-pessoais/");
+        TimeUnit.SECONDS.sleep(3);
+
+        browser.findElement(By.xpath("/html/body/div[1]/main/section/form/div[11]/button")).click();
+        TimeUnit.SECONDS.sleep(1);
+
+        Assert.assertFalse(browser.getCurrentUrl().equals("https://www.catho.com.br/curriculo/dados-pessoais/"));
+
+        browser.close();
+    }
+
+    @Test
+    public void test10() throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
+        WebDriver browser = new ChromeDriver();
+        browser.navigate().to("https://seguro.catho.com.br/signin/?_ga=2.230405148.1615813565.1632688812-387181253.1632688812");
+
+        browser.findElement(By.name("email")).sendKeys("clebercaio12345@gmail.com");
+        browser.findElement(By.name("password")).sendKeys("Cleber194t%");
+
+        browser.findElement(By.xpath("//*[@id=\"__next\"]/div/div/main/div/div/div/div/article/div/form/button")).submit();
+
+        TimeUnit.SECONDS.sleep(7);
+
+        String url = browser.getCurrentUrl();
 //        browser.navigate().to("https://www.catho.com.br/curriculo/?sugestaoVagas=1&editInativo=1&_ga=2.111187460.1071191939.1632741763-1569945203.1632741762");
 //        TimeUnit.SECONDS.sleep(3);
-        browser.navigate().to("https://www.catho.com.br/curriculo/dados-pessoais/");
-        TimeUnit.SECONDS.sleep(4);
 
-        browser.findElement(By.id("phoneCel")).clear();
+        browser.findElement(By.xpath("//*[@id=\"bcTestsContainer\"]/div[1]/article/div[4]/div/div/div/a")).click();
 
-        Assert.assertTrue(browser.getPageSource().contains("O campo Telefone principal é obrigatório"));
+        Assert.assertFalse(browser.getCurrentUrl().equals(url));
 
         browser.close();
     }

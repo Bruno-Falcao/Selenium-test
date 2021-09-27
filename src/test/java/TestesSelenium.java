@@ -238,6 +238,8 @@ public class TestesSelenium {
         browser.close();
     }
 
+
+//    botao de redirecionamento ao teste lógico
     @Test
     public void test10() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
@@ -252,12 +254,12 @@ public class TestesSelenium {
         TimeUnit.SECONDS.sleep(7);
 
         String url = browser.getCurrentUrl();
-//        browser.navigate().to("https://www.catho.com.br/curriculo/?sugestaoVagas=1&editInativo=1&_ga=2.111187460.1071191939.1632741763-1569945203.1632741762");
-//        TimeUnit.SECONDS.sleep(3);
 
         browser.findElement(By.xpath("//*[@id=\"bcTestsContainer\"]/div[1]/article/div[4]/div/div/div/a")).click();
 
         Assert.assertFalse(browser.getCurrentUrl().equals(url));
+        TimeUnit.SECONDS.sleep(2);
+
 
         browser.close();
     }
